@@ -28,6 +28,10 @@ SecurityHeaders::apply();
 $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 $path = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
 
+if ($method === 'GET' && $path === '/') {
+    JsonResponse::send(['status' => 'ok']);
+}
+
 if ($method === 'POST' && $path === '/') {
     try {
         BearerAuth::check($config['api_bearer_token']);
