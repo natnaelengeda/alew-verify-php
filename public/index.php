@@ -19,12 +19,16 @@ use App\Validation\VerifyRequestValidator;
 $basePath = dirname(__DIR__);
 $config = Config::load($basePath);
 
+if (! $config['app_debug']) {
+    ini_set('display_errors', '0');
+}
+
 SecurityHeaders::apply();
 
 $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 $path = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
 
-if ($method === 'POST' && $path === '/api/verifications') {
+if ($method === 'POST' && $path === '/') {
     try {
         BearerAuth::check($config['api_bearer_token']);
 
