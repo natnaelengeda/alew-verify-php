@@ -6,7 +6,6 @@ require dirname(__DIR__).'/vendor/autoload.php';
 
 use App\Config;
 use App\Exception\VerificationException;
-use App\Http\BearerAuth;
 use App\Http\JsonResponse;
 use App\Http\RateLimiter;
 use App\Http\SecurityHeaders;
@@ -34,8 +33,6 @@ if ($method === 'GET' && $path === '/') {
 
 if ($method === 'POST' && $path === '/') {
     try {
-        BearerAuth::check($config['api_bearer_token']);
-
         RateLimiter::check(
             'verifications',
             $_SERVER['REMOTE_ADDR'] ?? 'cli',
